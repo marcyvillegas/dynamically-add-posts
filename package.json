@@ -1,0 +1,23 @@
+{
+  "name": "dynamically-add-posts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fetch-api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcyvillegas/dynamically-add-posts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcyvillegas/dynamically-add-posts/issues"
+  },
+  "homepage": "https://github.com/marcyvillegas/dynamically-add-posts#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.2"
+  }
+}
