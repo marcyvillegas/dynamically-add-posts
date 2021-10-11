@@ -8,6 +8,7 @@
   text-align: center;
 }
 
+// Form
 form {
   label {
     color: #fff;
@@ -17,7 +18,14 @@ form {
   }
 }
 
+// Posts
+h2 {
+  color: #f5f5f5;
+}
+
+// Accordion
 .accordion-bg {
   padding: 1rem;
   border-radius: 0.6rem;
 }
+
