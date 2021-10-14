@@ -120,8 +120,8 @@ const addPost = async (e) => {
         dataArray.push(data);               // push the data to the array
         renderPost(dataArray);              // render or display the posts
 
-        postTitleForm.value = "";
-        postContentForm.value = "";
+        postTitleForm.value = "";           // setting the forms back to empty
+        postContentForm.value = "";         // setting the forms back to empy
 
         // Can insert a modal here
     }
