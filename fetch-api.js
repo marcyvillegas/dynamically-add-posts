@@ -123,7 +123,7 @@ const addPost = async (e) => {
         postTitleForm.value = "";
         postContentForm.value = "";
 
-        // Can insert here a modal
+        // Can insert a modal here
     }
 }
 
