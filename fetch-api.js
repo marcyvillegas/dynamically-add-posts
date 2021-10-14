@@ -7,13 +7,9 @@ let postOutputAccordion = ""; // Output for the Accordion
 let postOutputTable = ""; // Output for the Table Row
 let idNum = 0;           // ID number for every Accordion Button and Post Number
 
-let postTiteForm = document.querySelector(".form-title"); // Post Title form
+let postTitleForm = document.querySelector(".form-title"); // Post Title form
 let postContentForm = document.querySelector(".form-content"); // Post Content form
 let submitButton = document.querySelector(".submit-button"); // Submit button form
-
-// DOCS: https://jsonplaceholder.typicode.com/
-let url = "https://jsonplaceholder.typicode.com/posts"; // API endpoint
-
 
 // Function that adds HTML Elements
 const renderPost = (data) => {
@@ -26,7 +22,7 @@ const renderPost = (data) => {
 
         // Accordion HTML Element
         postOutputAccordion += `
-        <div class="accordion-bg bg-white mb-3 d-lg-none">
+        <div class="accordion-bg bg-white mb-3 d-lg-none" data-id=${post.id}>
         <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
 
@@ -35,7 +31,7 @@ const renderPost = (data) => {
                     <p class="postNum mt-2">Post Number# ${idNum}</p>
                     <div class="d-flex mb-2">
                         <button class="btn btn-primary edit-btn">Edit</button>
-                        <button class="btn btn-primary ms-2 del-btn">Delete</button>
+                        <button class="btn btn-primary ms-2 del-btn id="deleteButton">Delete</button>
                     </div>
                 </div>
                 <h2 class="accordion-header" id="flush-headingOne">
@@ -59,7 +55,7 @@ const renderPost = (data) => {
 
         // Table Row HTML Element
         postOutputTable += `
-        <tr class="table-row-container">
+        <tr class="table-row-container data-id=${post.id}">
                     <td class="date-text text-center">${idNum}</td>
                     <td class="title-text">${post.title}</td>
                     <td class="content-text">${post.body}</td>
@@ -82,18 +78,20 @@ const renderPost = (data) => {
 
 
 
+// DOCS: https://jsonplaceholder.typicode.com/
+let url = "https://jsonplaceholder.typicode.com/posts"; // API endpoint
+
 // GET METHOD - Read the posts
 // Displaying the posts per accordion and row element
 const displayPosts = async () => {
 
-    // Can add here a loader
-
-    const response = await fetch(url); // fetching the API endpoint
-    const data = await response.json(); // storing the data to a variable
-
-    // Calling the function for rendering the post
-    renderPost(data);
+    const response = await fetch(url);       // fetch APU endpoint
+    const data = await response.json();      // store JSON data to a variable
+    renderPost(data);                       // call renderPost function
 }
+
+
+// DELETE AND EDIT METHOD - Delete and Edit the posts
 
 
 //POST METHOD - Add a post
@@ -108,27 +106,33 @@ const addPost = async (e) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            title: postTiteForm.value,
-            body: postTiteForm.value
+            title: postTitleForm.value,
+            body: postContentForm.value,
         })
     });
 
     const data = await response.json(); // storing the data to a variable
-    console.log(data);
+    console.log(data);                  // console loging the data (as of now)
 
     const dataArray = [];               // since it is an object, we need to store it to an array
     dataArray.push(data);               // push the data to the array
-    displayPosts(data);                 // render or display the posts
+    renderPost(dataArray);              // render or display the posts
+
+    postTitleForm.value = "";
+    postContentForm.value = "";
+
+    // Can insert here a modal
 }
 
 
-// GET METHOD
-// Calling the displaying of posts function
+//GET METHOD
+// Calling the function that renders the post from API
 displayPosts();
 
 // POST METHOD
 // Event listener for the Submit Button Form
-// "submit" was used in to add the data to API 
-// "click" was used to display the data to the console only
+// try using "submit"
 submitButton.addEventListener("click", addPost);
+
+
 
