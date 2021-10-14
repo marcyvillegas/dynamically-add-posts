@@ -11,6 +11,11 @@ let postTitleForm = document.querySelector(".form-title"); // Post Title form
 let postContentForm = document.querySelector(".form-content"); // Post Content form
 let submitButton = document.querySelector(".submit-button"); // Submit button form
 
+// Function that checks if the input fields is empty
+const isEmpty = (str) => {
+    return !str.trim().length;
+}
+
 // Function that adds HTML Elements
 const renderPost = (data) => {
 
@@ -98,7 +103,7 @@ const displayPosts = async () => {
 // Adding the data to the API
 const addPost = async (e) => {
 
-    if (postTitleForm.value != "" && postContentForm.value != "") {
+    if (!isEmpty(postTitleForm.value) || !isEmpty(postContentForm.value)) {
 
         e.preventDefault();
 
