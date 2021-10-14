@@ -1,3 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Chivo&display=swap");
+body {
+  font-family: 'Chivo', sans-serif;
+}
+
 .accordion-container {
   max-width: 30rem;
 }
@@ -28,5 +33,8 @@ h2 {
 @media (min-width: 997px) {
   .table-container {
     margin: -2rem 3rem 0 3rem;
+  }
+  .accordion-container {
+    max-width: 40rem;
   }
 }

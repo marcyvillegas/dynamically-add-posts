@@ -98,30 +98,33 @@ const displayPosts = async () => {
 // Adding the data to the API
 const addPost = async (e) => {
 
-    e.preventDefault();
+    if (postTitleForm.value != "" && postContentForm.value != "") {
 
-    const response = await fetch(url, {  // fetching the API endpoint
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            title: postTitleForm.value,
-            body: postContentForm.value,
-        })
-    });
+        e.preventDefault();
 
-    const data = await response.json(); // storing the data to a variable
-    console.log(data);                  // console loging the data (as of now)
+        const response = await fetch(url, {  // fetching the API endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: postTitleForm.value,
+                body: postContentForm.value,
+            })
+        });
 
-    const dataArray = [];               // since it is an object, we need to store it to an array
-    dataArray.push(data);               // push the data to the array
-    renderPost(dataArray);              // render or display the posts
+        const data = await response.json(); // storing the data to a variable
+        console.log(data);                  // console loging the data (as of now)
 
-    postTitleForm.value = "";
-    postContentForm.value = "";
+        const dataArray = [];               // since it is an object, we need to store it to an array
+        dataArray.push(data);               // push the data to the array
+        renderPost(dataArray);              // render or display the posts
 
-    // Can insert here a modal
+        postTitleForm.value = "";
+        postContentForm.value = "";
+
+        // Can insert here a modal
+    }
 }
 
 
@@ -133,6 +136,8 @@ displayPosts();
 // Event listener for the Submit Button Form
 // try using "submit"
 submitButton.addEventListener("click", addPost);
+
+
 
 
 
