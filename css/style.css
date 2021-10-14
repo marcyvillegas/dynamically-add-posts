@@ -24,3 +24,9 @@ h2 {
   padding: 1rem;
   border-radius: 0.6rem;
 }
+
+@media (min-width: 997px) {
+  .table-container {
+    margin: -2rem 3rem 0 3rem;
+  }
+}
