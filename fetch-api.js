@@ -9,16 +9,16 @@ let postOutputTable = ""; // Output for the Table Row
 let idNum = 0;           // ID number for every Accordion Button and Post Number
 
 /* Declare variable for the forms */
-let postTitleForm = document.querySelector(".form-title"); // Post Title form
-let postContentForm = document.querySelector(".form-content"); // Post Content form
-let submitButton = document.querySelector(".submit-button"); // Submit button form
+const postTitleForm = document.querySelector(".form-title"); // Post Title form
+const postContentForm = document.querySelector(".form-content"); // Post Content form
+const submitButton = document.querySelector(".submit-button"); // Submit button form
 
-// Function that checks if the input fields is empty
+/* Function that checks if the input fields is empty */
 const isEmpty = (str) => {
     return !str.trim().length;
 }
 
-// Function that adds HTML Elements
+/* Function that adds HTML Elements */
 const renderPost = (data) => {
 
     // Adding HTML Elements and assigning data values for each data in the API 
@@ -37,8 +37,19 @@ const renderPost = (data) => {
                 <div class="d-flex justify-content-between">
                     <p class="postNum mt-2">Post Number# ${idNum}</p>
                     <div class="d-flex mb-2">
-                        <button class="btn btn-primary edit-btn">Edit</button>
-                        <button class="btn btn-primary ms-2 del-btn id="deleteButton">Delete</button>
+                        <h3 class="mt-1"><i class="bi bi-three-dots position-relative three-dot-icon-mobile" id="three-dot-icon-${idNum}">
+                                <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
+                                    style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 0;"
+                                    id="menu-box-${idNum}">
+                                    <p class="delete-button"
+                                        style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
+                                    </p>
+                                    <p class="edit-button"
+                                        style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
+                                    </p>
+                                </div>
+                            </i>
+                        </h3>
                     </div>
                 </div>
                 <h2 class="accordion-header" id="flush-headingOne">
@@ -51,8 +62,10 @@ const renderPost = (data) => {
                 <div id="flush-collapse-${idNum}" class="accordion-collapse collapse"
                     aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <p class="mt-3 fw-bold">Title: <span id="postTitle" style="font-weight: normal;">${post.title}</span></p>
-                        <p class="mt-3 mb-0 fw-bold">Content: <span id="postContent" style="font-weight: normal;">${post.body}</span></p>
+                        <p class="mt-3 fw-bold">Title: <span id="postTitle"
+                                style="font-weight: normal;">${post.title}</span></p>
+                        <p class="mt-3 mb-0 fw-bold">Content: <span id="postContent"
+                                style="font-weight: normal;">${post.body}</span></p>
                     </div>
                 </div>
             </div>
@@ -63,16 +76,24 @@ const renderPost = (data) => {
         // Table Row HTML Element
         postOutputTable += `
         <tr class="table-row-container data-id=${post.id}">
-                    <td class="date-text text-center">${idNum}</td>
-                    <td class="title-text">${post.title}</td>
-                    <td class="content-text">${post.body}</td>
-                    <td class="">
-                        <div class="d-flex justify-content-center">
-                            <button class="btn btn-primary">Edit</button>
-                            <button class="btn btn-primary ms-3">Delete</button>
+        <td class="date-text text-center">${idNum}</td>
+        <td class="title-text">${post.title}</td>
+        <td class="content-text">${post.body}</td>
+        <td class="">
+            <div class="d-flex justify-content-center">
+                <h3><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-icon-${idNum}">
+                        <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
+                            style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 5;"
+                            id="menu-box-${idNum}">
+                            <p class="delete-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
+                            </p>
+                            <p class="edit-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
+                            </p>
                         </div>
-                    </td>
-        </tr>
+                    </i></h3>
+            </div>
+        </td>
+    </tr>
         `;
 
         // Appending the Accordion HTML Element to Accordion Container
@@ -80,6 +101,29 @@ const renderPost = (data) => {
 
         // Appending the Table Row HTML Element to Table Row container
         tableContainer.innerHTML = postOutputTable;
+
+        /* DISPLAYING THE THREE DOT MENU */
+        let threeDotIconMobile = document.querySelectorAll(".three-dot-icon-mobile"); // variable of the three dot menu icon
+
+        // Looping over all three dot icon for mobile
+        threeDotIconMobile.forEach( (icon) => {
+            icon.addEventListener("click", (e) => {
+
+                let target = e.target.id;
+                console.log(target);
+
+                let iconMobile = document.getElementById(`${target}`);
+ 
+                let nodeListMobile = iconMobile.childNodes;
+                
+                let menuBoxMobile = nodeListMobile[1];
+
+                let menuBoxMobileId = document.getElementById(`${menuBoxMobile.id}`);
+
+                menuBoxMobileId.style.display = "block";
+            })
+        });
+
     });
 }
 
@@ -123,14 +167,14 @@ const addPost = async (e) => {
         const data = await response.json(); // storing the data to a variable
         console.log(data);                  // console loging the data (as of now)
 
-        const dataArray = [];               // since it is an object, we need to store it to an array
+        const dataArray = [];               // Since a JSON is an array of objects, we need to store it to an array
         dataArray.push(data);               // push the data to the array
-        renderPost(dataArray);              // render or display the posts
+        renderPost(dataArray);              // render or display the newly added post
 
         postTitleForm.value = "";           // setting the forms back to empty
         postContentForm.value = "";         // setting the forms back to empy
 
-        // Can insert an invalid modal here about the invalid input values
+        // Can insert an else statement and an invalid modal about the invalid input values
     }
 }
 
@@ -141,8 +185,10 @@ displayPosts();
 
 /* POST METHOD */
 // Event listener for the Submit Button Form
-// try using "submit"
+// try using "submit" (really not working)
 submitButton.addEventListener("click", addPost);
+
+
 
 
 

@@ -35,6 +35,11 @@ h2 {
   border-radius: 0.6rem;
 }
 
+// Three Menu box
+.menu-box {
+  display: none;
+}
+
 @media (min-width: 997px) {
   .table-container {
     margin: -2rem 3rem 0 3rem;
@@ -42,5 +47,9 @@ h2 {
 
   .accordion-container {
     max-width: 40rem;
+  }
+
+  .menu-box {
+    display: none;
   }
 }
