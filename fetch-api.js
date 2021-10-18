@@ -25,15 +25,13 @@ const toggleMenu = (element) => {
     element.addEventListener("click", (e) => {
 
         let target = e.target.id; // getting the target id of the three dot icon which is 
-        console.log(target);
+        //console.log(target);
 
         let icon = document.getElementById(`${target}`); // getting the elment which has the target id
 
-        let nodeList = icon.childNodes;             // getting all the child nodes
-        console.log(nodeList);
-        console.log(nodeList[1].id);                // console logs the id of the first node which is the menu box
+        let menuBox = icon.firstElementChild           // getting the first child element which is the menu box
 
-        let menuBoxId = document.getElementById(`${nodeList[1].id}`); // getting the element of the id of the node
+        let menuBoxId = document.getElementById(`${menuBox.id}`); // getting the element of the id of the node
 
         if (menuBoxId.style.display === "none") {               // logic for the displaying and hiding the menu box
             menuBoxId.style.display = "block";
@@ -66,10 +64,10 @@ const renderPost = (data) => {
                                     <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
                                         style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 0;"
                                         id="menu-box-${idNum}">
-                                        <p class="delete-button"
+                                        <p id="deleteButton"
                                             style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                         </p>
-                                        <p class="edit-button"
+                                        <p id="editButton"
                                             style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
                                         </p>
                                     </div>
@@ -110,9 +108,9 @@ const renderPost = (data) => {
                             <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
                                 style="z-index: 100; border: 1px solid; border-radius: 0.6rem;"
                                 id="menu-box-table-${idNum}">
-                                <p class="delete-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
+                                <p id="deleteButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                 </p>
-                                <p class="edit-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
+                                <p id="editButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
                                 </p>
                             </div>
                         </i></h3>
@@ -142,8 +140,6 @@ const renderPost = (data) => {
         threeDotIconTable.forEach((icon) => {
             toggleMenu(icon); // calling the toggle function
         });
-        
-        
 
     });
 }
@@ -154,16 +150,23 @@ const renderPost = (data) => {
 let url = "https://jsonplaceholder.typicode.com/posts"; // API endpoint
 
 /* GET METHOD - Read the posts */
-// Displaying the posts per accordion and row element
+// Displaying the posts per accordion and table row element
 const displayPosts = async () => {
 
     const response = await fetch(url);       // fetch APU endpoint
     const data = await response.json();      // store JSON data to a variable
-    renderPost(data);                       // call renderPost function
+    renderPost(data);                       // call renderPost function which adds elements with the data from the API
 }
 
 
-/* DELETE AND EDIT METHOD - Delete and Edit the posts */
+/* DELETE METHOD - Deletes the post */
+const deletePost = async (e) => {
+
+    e.preventDefault();
+
+
+
+}
 
 
 /* POST METHOD - Add a post */

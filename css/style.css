@@ -44,6 +44,28 @@ h2 {
   background-color: #e0e0e0;
 }
 
+.edit-form-modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.edit-form-modal form {
+  width: 20rem;
+  margin: 15rem auto;
+  padding: 2rem;
+  border-radius: 0.6rem;
+}
+
+.edit-form-modal form button {
+  margin-left: 1.5rem;
+}
+
 @media (min-width: 997px) {
   .table-container {
     margin: -2rem 3rem 0 3rem;
@@ -53,5 +75,24 @@ h2 {
   }
   .menu-box {
     display: none;
+  }
+  .edit-form-modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .edit-form-modal form {
+    width: 30rem;
+    margin: 15rem auto;
+    padding: 2rem;
+    border-radius: 0.6rem;
+  }
+  .edit-form-modal form button {
+    margin-left: 2.5rem;
   }
 }
