@@ -13,12 +13,20 @@ const postTitleForm = document.querySelector(".form-title"); // Post Title form
 const postContentForm = document.querySelector(".form-content"); // Post Content form
 const submitButton = document.querySelector(".submit-button"); // Submit button form
 
+
 /* Function that checks if the input fields is empty */
 const isEmpty = (str) => {
     return !str.trim().length;
 }
 
-
+/* Function that toggles an element */
+const toggleMenu = (element) => {
+    if (element.style.display === "none") {
+        element.style.display = "block";
+    } else {
+        element.style.display = "none";
+    }
+}
 
 /* Function that adds HTML Elements */
 const renderPost = (data) => {
@@ -31,72 +39,72 @@ const renderPost = (data) => {
 
         // Accordion HTML Element
         postOutputAccordion += `
-        <div class="accordion-bg bg-white mb-3 d-lg-none" data-id=${post.id}>
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item">
+            <div class="accordion-bg bg-white mb-3 d-lg-none" data-id=${post.id}>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
 
-                <!-- Post Number, Edit and Delete Function -->
-                <div class="d-flex justify-content-between">
-                    <p class="postNum mt-2">Post Number# ${idNum}</p>
-                    <div class="d-flex mb-2">
-                        <h3 class="mt-1"><i class="bi bi-three-dots position-relative three-dot-icon-mobile" id="three-dot-icon-${idNum}">
-                                <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
-                                    style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 0;"
-                                    id="menu-box-${idNum}">
-                                    <p class="delete-button"
-                                        style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
-                                    </p>
-                                    <p class="edit-button"
-                                        style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
-                                    </p>
-                                </div>
-                            </i>
-                        </h3>
+                    <!-- Post Number, Edit and Delete Function -->
+                    <div class="d-flex justify-content-between">
+                        <p class="postNum mt-2">Post Number# ${idNum}</p>
+                        <div class="d-flex mb-2">
+                            <h3 class="mt-1"><i class="bi bi-three-dots position-relative three-dot-icon-mobile px-2" id="three-dot-icon-${idNum}" style="cursor: pointer;">
+                                    <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
+                                        style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 0;"
+                                        id="menu-box-${idNum}">
+                                        <p class="delete-button"
+                                            style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
+                                        </p>
+                                        <p class="edit-button"
+                                            style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
+                                        </p>
+                                    </div>
+                                </i>
+                            </h3>
+                        </div>
                     </div>
-                </div>
-                <h2 class="accordion-header" id="flush-headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapse-${idNum}" aria-expanded="false"
-                        aria-controls="flush-collapseOne" id="button-title" style="border: 1px solid">
-                        View Post
-                    </button>
-                </h2>
-                <div id="flush-collapse-${idNum}" class="accordion-collapse collapse"
-                    aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        <p class="mt-3 fw-bold">Title: <span id="postTitle"
-                                style="font-weight: normal;">${post.title}</span></p>
-                        <p class="mt-3 mb-0 fw-bold">Content: <span id="postContent"
-                                style="font-weight: normal;">${post.body}</span></p>
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapse-${idNum}" aria-expanded="false"
+                            aria-controls="flush-collapseOne" id="button-title" style="border: 1px solid">
+                            View Post
+                        </button>
+                    </h2>
+                    <div id="flush-collapse-${idNum}" class="accordion-collapse collapse"
+                        aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <p class="mt-3 fw-bold">Title: <span id="postTitle"
+                                    style="font-weight: normal;">${post.title}</span></p>
+                            <p class="mt-3 mb-0 fw-bold">Content: <span id="postContent"
+                                    style="font-weight: normal;">${post.body}</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-        `;
+            `;
 
         // Table Row HTML Element
         postOutputTable += `
-        <tr class="table-row-container data-id=${post.id}">
-        <td class="date-text text-center">${idNum}</td>
-        <td class="title-text">${post.title}</td>
-        <td class="content-text">${post.body}</td>
-        <td class="">
-            <div class="d-flex justify-content-center">
-                <h3><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-icon-${idNum}">
-                        <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
-                            style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 5;"
-                            id="menu-box-${idNum}">
-                            <p class="delete-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
-                            </p>
-                            <p class="edit-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
-                            </p>
-                        </div>
-                    </i></h3>
-            </div>
-        </td>
-    </tr>
-        `;
+            <tr class="table-row-container data-id=${post.id}">
+            <td class="date-text text-center">${idNum}</td>
+            <td class="title-text">${post.title}</td>
+            <td class="content-text">${post.body}</td>
+            <td class="">
+                <div class="d-flex justify-content-center">
+                    <h3><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-icon-${idNum}" style="cursor: pointer;">
+                            <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
+                                style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 5;"
+                                id="menu-box-${idNum}">
+                                <p class="delete-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
+                                </p>
+                                <p class="edit-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
+                                </p>
+                            </div>
+                        </i></h3>
+                </div>
+            </td>
+        </tr>
+            `;
 
         // Appending the Accordion HTML Element to Accordion Container
         accordionContainer.innerHTML = postOutputAccordion;
@@ -104,30 +112,28 @@ const renderPost = (data) => {
         // Appending the Table Row HTML Element to Table Row container
         tableContainer.innerHTML = postOutputTable;
 
+
         /* DISPLAYING THE THREE DOT MENU */
-        let threeDotIconMobile = document.querySelectorAll(".three-dot-icon-mobile"); // variable of the three dot menu icon
+        let threeDotIconMobile = document.querySelectorAll(".three-dot-icon-mobile"); // variable of the three dot menu icon in mobile
 
         // Looping over all three dot icon for mobile
-        threeDotIconMobile.forEach( (icon) => {
+        threeDotIconMobile.forEach((icon) => {
             icon.addEventListener("click", (e) => {
 
-                let target = e.target.id;
+                let target = e.target.id; // getting the target id of the three dot icon which is 
                 console.log(target);
 
-                let iconMobile = document.getElementById(`${target}`);
- 
-                let nodeListMobile = iconMobile.childNodes;
-                
-                let menuBoxMobile = nodeListMobile[1];
+                let iconMobile = document.getElementById(`${target}`); // getting the elment which has the target id
+
+                let nodeListMobile = iconMobile.childNodes;             // getting all the child nodes
+
+                let menuBoxMobile = nodeListMobile[1];                  // getting the 2nd child nodes which is the menu box
                 console.log(menuBoxMobile);
+                console.log(menuBoxMobile.id);                          // console logs the id of the child node
 
-                let menuBoxMobileId = document.getElementById(`${menuBoxMobile.id}`);
+                let menuBoxMobileId = document.getElementById(`${menuBoxMobile.id}`); // getting the element of the id of the node
 
-                if (menuBoxMobileId.style.display === "none") {
-                    menuBoxMobileId.style.display = "block";
-                } else {
-                    menuBoxMobileId.style.display = "none";
-                }
+                toggleMenu(menuBoxMobileId); // calls the toggle function
             })
         });
 
@@ -183,8 +189,7 @@ const addPost = async (e) => {
         postTitleForm.value = "";           // setting the forms back to empty
         postContentForm.value = "";         // setting the forms back to empy
 
-        // Can insert an else statement and an invalid modal about the invalid input values
-    }
+    } // Can insert an else statement and an invalid modal about the invalid input values
 }
 
 
@@ -194,7 +199,7 @@ displayPosts();
 
 /* POST METHOD */
 // Event listener for the Submit Button Form
-// try using "submit" (really not working)
+// try using "submit" (not working)
 submitButton.addEventListener("click", addPost);
 
 
