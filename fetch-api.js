@@ -1,12 +1,14 @@
 
-// Declare Variables for the containers
+/* Declare Variables for the containers */
 const accordionContainer = document.querySelector(".main-accordion-container"); // Accordion Container
 const tableContainer = document.querySelector(".main-table-container");         // Table Row Container
 
+/* Declare variable for the outputs */
 let postOutputAccordion = ""; // Output for the Accordion 
 let postOutputTable = ""; // Output for the Table Row
 let idNum = 0;           // ID number for every Accordion Button and Post Number
 
+/* Declare variable for the forms */
 let postTitleForm = document.querySelector(".form-title"); // Post Title form
 let postContentForm = document.querySelector(".form-content"); // Post Content form
 let submitButton = document.querySelector(".submit-button"); // Submit button form
@@ -86,7 +88,7 @@ const renderPost = (data) => {
 // DOCS: https://jsonplaceholder.typicode.com/
 let url = "https://jsonplaceholder.typicode.com/posts"; // API endpoint
 
-// GET METHOD - Read the posts
+/* GET METHOD - Read the posts */
 // Displaying the posts per accordion and row element
 const displayPosts = async () => {
 
@@ -96,10 +98,10 @@ const displayPosts = async () => {
 }
 
 
-// DELETE AND EDIT METHOD - Delete and Edit the posts
+/* DELETE AND EDIT METHOD - Delete and Edit the posts */
 
 
-//POST METHOD - Add a post
+/* POST METHOD - Add a post */
 // Adding the data to the API
 const addPost = async (e) => {
 
@@ -128,19 +130,20 @@ const addPost = async (e) => {
         postTitleForm.value = "";           // setting the forms back to empty
         postContentForm.value = "";         // setting the forms back to empy
 
-        // Can insert a modal here
+        // Can insert an invalid modal here about the invalid input values
     }
 }
 
 
-//GET METHOD
+/* GET METHOD */
 // Calling the function that renders the post from API
 displayPosts();
 
-// POST METHOD
+/* POST METHOD */
 // Event listener for the Submit Button Form
 // try using "submit"
 submitButton.addEventListener("click", addPost);
+
 
 
 
