@@ -53,6 +53,7 @@ h2 {
   width: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  display: none;
 }
 
 .edit-form-modal form {
@@ -85,6 +86,7 @@ h2 {
     width: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
+    display: none;
   }
   .edit-form-modal form {
     width: 30rem;

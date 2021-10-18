@@ -1,17 +1,22 @@
 
 /* Declare Variables for the containers */
-const accordionContainer = document.querySelector(".main-accordion-container"); // Accordion Container
-const tableContainer = document.querySelector(".main-table-container");         // Table Row Container
+const accordionContainer = document.querySelector(".main-accordion-container"); // Whole accordion Container
+const tableContainer = document.querySelector(".main-table-container");         // Whole table Row Container
 
 /* Declare variable for the outputs */
 let postOutputAccordion = ""; // Output for the Accordion 
 let postOutputTable = ""; // Output for the Table Row
 let idNum = 0;           // ID number for every Accordion Button and Post Number
 
-/* Declare variable for the forms */
+/* Declare variable for the createing a post form */
 const postTitleForm = document.querySelector(".form-title"); // Post Title form
 const postContentForm = document.querySelector(".form-content"); // Post Content form
 const submitButton = document.querySelector(".submit-button"); // Submit button form
+
+// /* Declare variable for the accordion and table row itself */
+// const accordion = document.querySelector(".accordion-bg");
+// const tableRow = document.querySelector("table-row-container");
+
 
 
 /* Function that checks if the input fields is empty */
@@ -30,6 +35,7 @@ const toggleMenu = (element) => {
         let icon = document.getElementById(`${target}`); // getting the elment which has the target id
 
         let menuBox = icon.firstElementChild           // getting the first child element which is the menu box
+        //console.log(menuBox.id);
 
         let menuBoxId = document.getElementById(`${menuBox.id}`); // getting the element of the id of the node
 
@@ -52,22 +58,22 @@ const renderPost = (data) => {
 
         // Accordion HTML Element
         postOutputAccordion += `
-            <div class="accordion-bg bg-white mb-3 d-lg-none" data-id=${post.id}>
+            <div class="accordion-bg bg-white mb-3 d-lg-none">
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <div class="accordion-item">
 
                     <!-- Post Number, Edit and Delete Function -->
                     <div class="d-flex justify-content-between">
                         <p class="postNum mt-2">Post Number# ${idNum}</p>
-                        <div class="d-flex mb-2">
+                        <div class="d-flex mb-2" data-id=${post.id}>
                             <h3 class="mt-1"><i class="bi bi-three-dots position-relative three-dot-icon-mobile px-2" id="three-dot-icon-${idNum}" style="cursor: pointer;">
                                     <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
                                         style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 0;"
                                         id="menu-box-${idNum}">
-                                        <p id="deleteButton"
+                                        <p id="editButton"
                                             style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                         </p>
-                                        <p id="editButton"
+                                        <p id="deleteButton"
                                             style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
                                         </p>
                                     </div>
@@ -98,19 +104,19 @@ const renderPost = (data) => {
 
         // Table Row HTML Element
         postOutputTable += `
-            <tr class="table-row-container data-id=${post.id}">
+            <tr class="table-row-container">
             <td class="date-text text-center">${idNum}</td>
             <td class="title-text">${post.title}</td>
             <td class="content-text">${post.body}</td>
             <td class="">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center" data-id=${post.id}>
                     <h3><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-table-icon-${idNum}" style="cursor: pointer;">
                             <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
                                 style="z-index: 100; border: 1px solid; border-radius: 0.6rem;"
                                 id="menu-box-table-${idNum}">
-                                <p id="deleteButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
+                                <p id="editButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                 </p>
-                                <p id="editButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
+                                <p id="deleteButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
                                 </p>
                             </div>
                         </i></h3>
@@ -126,7 +132,7 @@ const renderPost = (data) => {
         tableContainer.innerHTML = postOutputTable;
 
 
-        /* DISPLAYING THE THREE DOT MENU */
+        /* TOGGLING THE THREE DOT MENU */
         let threeDotIconMobile = document.querySelectorAll(".three-dot-icon-mobile"); // variable of the three dot menu icon in mobile
         let threeDotIconTable = document.querySelectorAll(".three-dot-icon-table");   // variable of the three dot menu icon in the table
 
@@ -159,12 +165,32 @@ const displayPosts = async () => {
 }
 
 
-/* DELETE METHOD - Deletes the post */
-const deletePost = async (e) => {
+/* DELETE AND PATCH METHOD - Deletes and edits the post */
+const deleteEditPost = async (e) => {
 
     e.preventDefault();
 
+    let delButtonIsPressed = e.target.id == "deleteButton";
+    //let delButtonIsPressed = e.target.id == "deleteButton";
 
+    let menubox = e.target.parentElement;           // parent element of the delete button
+
+    let dataId = menubox.parentElement.dataset.id; // id of the data
+    //console.log(dataId)
+
+    if (delButtonIsPressed) {
+        const response = await fetch(`${url}/${dataId}`, {
+            method: 'DELETE',
+        });
+        const data = response.json();
+        console.log(data);
+        console.log(`Post has been deleted`);
+
+        // Insert modal before reloading the page
+        setTimeout(() => location.reload(), 5000);
+    }
+
+    
 
 }
 
@@ -214,3 +240,5 @@ displayPosts();
 submitButton.addEventListener("click", addPost);
 
 
+accordionContainer.addEventListener("click", deleteEditPost);
+tableContainer.addEventListener("click", deleteEditPost);
