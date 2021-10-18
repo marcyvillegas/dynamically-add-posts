@@ -21,11 +21,28 @@ const isEmpty = (str) => {
 
 /* Function that toggles an element */
 const toggleMenu = (element) => {
-    if (element.style.display === "none") {
-        element.style.display = "block";
-    } else {
-        element.style.display = "none";
-    }
+
+    element.addEventListener("click", (e) => {
+
+        let target = e.target.id; // getting the target id of the three dot icon which is 
+        console.log(target);
+
+        let icon = document.getElementById(`${target}`); // getting the elment which has the target id
+
+        let nodeList = icon.childNodes;             // getting all the child nodes
+
+        let menuBox = nodeList[1];                  // getting the 2nd child node which is the menu box
+        console.log(menuBox);
+        console.log(menuBox.id);                          // console logs the id of the child node
+
+        let menuBoxId = document.getElementById(`${menuBox.id}`); // getting the element of the id of the node
+
+        if (menuBoxId.style.display === "none") {               // logic for the displaying and hiding the menu box
+            menuBoxId.style.display = "block";
+        } else {
+            menuBoxId.style.display = "none";
+        }
+    });
 }
 
 /* Function that adds HTML Elements */
@@ -91,10 +108,10 @@ const renderPost = (data) => {
             <td class="content-text">${post.body}</td>
             <td class="">
                 <div class="d-flex justify-content-center">
-                    <h3><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-icon-${idNum}" style="cursor: pointer;">
+                    <h3><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-table-icon-${idNum}" style="cursor: pointer;">
                             <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
-                                style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 5;"
-                                id="menu-box-${idNum}">
+                                style="z-index: 100; border: 1px solid; border-radius: 0.6rem;"
+                                id="menu-box-table-${idNum}">
                                 <p class="delete-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                 </p>
                                 <p class="edit-button" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
@@ -115,27 +132,21 @@ const renderPost = (data) => {
 
         /* DISPLAYING THE THREE DOT MENU */
         let threeDotIconMobile = document.querySelectorAll(".three-dot-icon-mobile"); // variable of the three dot menu icon in mobile
+        let threeDotIconTable = document.querySelectorAll(".three-dot-icon-table");   // variable of the three dot menu icon in the table
 
         // Looping over all three dot icon for mobile
         threeDotIconMobile.forEach((icon) => {
-            icon.addEventListener("click", (e) => {
+            toggleMenu(icon); // calling the toggle function
 
-                let target = e.target.id; // getting the target id of the three dot icon which is 
-                console.log(target);
-
-                let iconMobile = document.getElementById(`${target}`); // getting the elment which has the target id
-
-                let nodeListMobile = iconMobile.childNodes;             // getting all the child nodes
-
-                let menuBoxMobile = nodeListMobile[1];                  // getting the 2nd child nodes which is the menu box
-                console.log(menuBoxMobile);
-                console.log(menuBoxMobile.id);                          // console logs the id of the child node
-
-                let menuBoxMobileId = document.getElementById(`${menuBoxMobile.id}`); // getting the element of the id of the node
-
-                toggleMenu(menuBoxMobileId); // calls the toggle function
-            })
         });
+
+        // Looping over all three dot icon for the table
+        threeDotIconTable.forEach((icon) => {
+            toggleMenu(icon); // calling the toggle function
+        });
+        
+        
+
     });
 }
 
@@ -198,11 +209,5 @@ displayPosts();
 // Event listener for the Submit Button Form
 // try using "submit" (not working)
 submitButton.addEventListener("click", addPost);
-
-
-
-
-
-
 
 
