@@ -18,6 +18,8 @@ const isEmpty = (str) => {
     return !str.trim().length;
 }
 
+
+
 /* Function that adds HTML Elements */
 const renderPost = (data) => {
 
@@ -117,12 +119,19 @@ const renderPost = (data) => {
                 let nodeListMobile = iconMobile.childNodes;
                 
                 let menuBoxMobile = nodeListMobile[1];
+                console.log(menuBoxMobile);
 
                 let menuBoxMobileId = document.getElementById(`${menuBoxMobile.id}`);
 
-                menuBoxMobileId.style.display = "block";
+                if (menuBoxMobileId.style.display === "none") {
+                    menuBoxMobileId.style.display = "block";
+                } else {
+                    menuBoxMobileId.style.display = "none";
+                }
             })
         });
+
+
 
     });
 }
