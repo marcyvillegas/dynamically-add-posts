@@ -31,12 +31,9 @@ const toggleMenu = (element) => {
 
         let nodeList = icon.childNodes;             // getting all the child nodes
         console.log(nodeList);
+        console.log(nodeList[1].id);                // console logs the id of the first node which is the menu box
 
-        let menuBox = nodeList[1];                  // getting the 2nd child node which is the menu box
-        console.log(menuBox);
-        console.log(menuBox.id);                          // console logs the id of the child node
-
-        let menuBoxId = document.getElementById(`${menuBox.id}`); // getting the element of the id of the node
+        let menuBoxId = document.getElementById(`${nodeList[1].id}`); // getting the element of the id of the node
 
         if (menuBoxId.style.display === "none") {               // logic for the displaying and hiding the menu box
             menuBoxId.style.display = "block";
