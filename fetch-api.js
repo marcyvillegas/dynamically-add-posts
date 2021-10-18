@@ -136,9 +136,6 @@ const renderPost = (data) => {
                 toggleMenu(menuBoxMobileId); // calls the toggle function
             })
         });
-
-
-
     });
 }
 

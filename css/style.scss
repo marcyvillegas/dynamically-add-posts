@@ -38,6 +38,16 @@ h2 {
 // Three Menu box
 .menu-box {
   display: none;
+
+  p {
+    margin: 0 0 0.4rem 0;
+    padding: 0 0.8rem;
+    border-radius: 0.3rem;
+  }
+
+  p:hover {
+    background-color: rgb(224, 224, 224);
+  }
 }
 
 @media (min-width: 997px) {

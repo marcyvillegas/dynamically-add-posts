@@ -34,6 +34,16 @@ h2 {
   display: none;
 }
 
+.menu-box p {
+  margin: 0 0 0.4rem 0;
+  padding: 0 0.8rem;
+  border-radius: 0.3rem;
+}
+
+.menu-box p:hover {
+  background-color: #e0e0e0;
+}
+
 @media (min-width: 997px) {
   .table-container {
     margin: -2rem 3rem 0 3rem;
