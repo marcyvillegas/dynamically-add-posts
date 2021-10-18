@@ -13,9 +13,6 @@ const postTitleForm = document.querySelector(".form-title"); // Post Title form
 const postContentForm = document.querySelector(".form-content"); // Post Content form
 const submitButton = document.querySelector(".submit-button"); // Submit button form
 
-// /* Declare variable for the accordion and table row itself */
-// const accordion = document.querySelector(".accordion-bg");
-// const tableRow = document.querySelector("table-row-container");
 
 
 
@@ -190,7 +187,9 @@ const deleteEditPost = async (e) => {
         setTimeout(() => location.reload(), 5000);
     }
 
-    
+    // if () {
+
+    // }
 
 }
 
