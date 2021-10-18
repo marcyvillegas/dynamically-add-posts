@@ -30,6 +30,7 @@ const toggleMenu = (element) => {
         let icon = document.getElementById(`${target}`); // getting the elment which has the target id
 
         let nodeList = icon.childNodes;             // getting all the child nodes
+        console.log(nodeList);
 
         let menuBox = nodeList[1];                  // getting the 2nd child node which is the menu box
         console.log(menuBox);
@@ -196,6 +197,8 @@ const addPost = async (e) => {
 
         postTitleForm.value = "";           // setting the forms back to empty
         postContentForm.value = "";         // setting the forms back to empy
+
+        // Can add modal for successfully made the post 
 
     } // Can insert an else statement and an invalid modal about the invalid input values
 }
