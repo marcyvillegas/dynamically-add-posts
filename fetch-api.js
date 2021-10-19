@@ -1,5 +1,5 @@
 
-/* Declare Variables for the containers */
+/* Declare Variables for the containers where the output will be appended */
 const accordionContainer = document.querySelector(".main-accordion-container"); // Whole accordion Container
 const tableContainer = document.querySelector(".main-table-container");         // Whole table Row Container
 
@@ -26,17 +26,11 @@ const toggleMenu = (element) => {
 
     element.addEventListener("click", (e) => {
 
-        let target = e.target.id; // getting the target id of the three dot icon which is 
-        //console.log(target);
+        let icon = document.getElementById(`${e.target.id}`); // getting the id of the clicked element which is the three dot icon
 
-        let icon = document.getElementById(`${target}`); // getting the elment which has the target id
+        let menuBoxId = document.getElementById(`${icon.firstElementChild.id}`); // getting the id of fisrt child element of the icon which is the menu box
 
-        let menuBox = icon.firstElementChild           // getting the first child element which is the menu box
-        //console.log(menuBox.id);
-
-        let menuBoxId = document.getElementById(`${menuBox.id}`); // getting the element of the id of the node
-
-        if (menuBoxId.style.display === "none") {               // logic for the displaying and hiding the menu box
+        if (menuBoxId.style.display === "none") {  // logic for the displaying and hiding the menu box
             menuBoxId.style.display = "block";
         } else {
             menuBoxId.style.display = "none";
@@ -85,7 +79,7 @@ const renderPost = (data) => {
                             View Post
                         </button>
                     </h2>
-                    <div id="flush-collapse-${idNum}" class="accordion-collapse collapse"
+                    <div id="flush-collapse-${idNum}" class="accordion-collapse collapse accordion-contents"
                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
                             <p class="mt-3 fw-bold">Title: <span id="postTitle"
@@ -167,8 +161,8 @@ const deleteEditPost = async (e) => {
 
     e.preventDefault();
 
-    let delButtonIsPressed = e.target.id == "deleteButton";
-    //let delButtonIsPressed = e.target.id == "deleteButton";
+    let delButtonIsPressed = e.target.id == "deleteButton"; // 
+    let editButtonIsPressed = e.target.id == "editButton";
 
     let menubox = e.target.parentElement;           // parent element of the delete button
 
@@ -180,16 +174,16 @@ const deleteEditPost = async (e) => {
             method: 'DELETE',
         });
         const data = response.json();
-        console.log(data);
-        console.log(`Post has been deleted`);
+        //console.log(data);
+        //console.log(`Post has been deleted`);
 
         // Insert modal before reloading the page
-        setTimeout(() => location.reload(), 5000);
+        setTimeout(() => location.reload(), 3000);
     }
 
-    // if () {
+    if (editButtonIsPressed) {
 
-    // }
+    }
 
 }
 
