@@ -83,9 +83,9 @@ const renderPost = (data) => {
                     <div id="flush-collapse-${idNum}" class="accordion-collapse collapse accordion-contents"
                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
-                            <p class="mt-3 fw-bold">Title: <span class="accordion-post-title" id="postTitle"
+                            <p class="mt-3 fw-bold">Title: <span class="accordion-post-title" id="post-title-accordion"
                                     style="font-weight: normal;">${post.title}</span></p>
-                            <p class="mt-3 mb-0 fw-bold">Content: <span class="accordion-post-body" id="postContent"
+                            <p class="mt-3 mb-0 fw-bold">Content: <span class="accordion-post-body" id="post-body-accordion"
                                     style="font-weight: normal;">${post.body}</span></p>
                         </div>
                     </div>
@@ -99,8 +99,8 @@ const renderPost = (data) => {
             <!-- Contents inside the table row -->
             <tr class="table-row-container table-contents">
             <td class="date-text text-center">${idNum}</td>
-            <td class="title-text table-post-title">${post.title}</td>
-            <td class="content-text table-post-body">${post.body}</td>
+            <td class="title-text table-post-title" id="post-title">${post.title}</td>
+            <td class="content-text table-post-body" id="post-body">${post.body}</td>
             <td class="">
                 <div class="d-flex justify-content-center" data-id=${post.id}>
                     <h3 class="h3"><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-table-icon-${idNum}" style="cursor: pointer;">
@@ -191,22 +191,29 @@ const deleteEditPost = async (e) => {
         //console.log(contents);
 
         // Getting the text content of post title and body from the accordion or the table
-        let postTitleContent = contents.querySelector(".table-post-title").textContent ||  contents.querySelector(".accordion-post-title").textContent;
-        let postBodyContent = contents.querySelector(".table-post-body").textContent ||  contents.querySelector(".accordion-post-body").textContent;
-        //console.log(postTitleContent); 
-        //console.log(postBodyContent); 
+        let postTitleContent = contents.querySelector(".accordion-post-title").textContent || contents.querySelector(".table-post-title").textContent;
+        //let postTitleContentAccordion = contents.querySelector("#post-title-accordion").textContent;
+        //|| contents.querySelector(".accordion-post-title").textContent;
+       // let postBodyContent = contents.querySelector(".table-post-body").textContent || contents.querySelector(".accordion-post-body").textContent;
+        //console.log(postTitleContent);
+        //console.log(postBodyContent);
+        
+
+        console.log(postTitleContent);
+        
 
         // Displays the edit form modal with the data values in the fields
-        document.querySelector(".edit-form-modal").style.display = "block"; // z-index should be higher
-        document.querySelector(".edited-title").value = postTitleContent;
-        document.querySelector(".edited-content").value = postBodyContent;
+        // document.querySelector(".edit-form-modal").style.display = "block"; // z-index should be higher
+        // document.querySelector(".edited-title").value = postTitleContent || postTitleContentAccordion;
+        // document.querySelector(".edited-content").value = postBodyContent || postBodyContentAccordion;
 
         
     }
     /*
     LOGIC
-    1. Loop through the parent elements until it is accordion-contents or table-row-container (containers or divs with the data contents)
-    2. 
+    1. Get parent elements which are the accordion-contents or table-row-container (containers or divs with the data contents)
+    2. Set different ids for the edit button both for the accordion and table
+    3. Try separating the function if it is still not working
     */
 }
 
