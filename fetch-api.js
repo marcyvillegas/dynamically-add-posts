@@ -26,8 +26,8 @@ const toggleMenu = (element) => {
 
     element.addEventListener("click", (e) => {
 
-        let menuBox = document.getElementById(`${e.target.childNodes[1].id}`); // getting the id of the 2nd child node (div menu box) of the clicked element which is the three dot icon
-        console.log(e.target.childNodes);
+        let menuBox = document.getElementById(`${e.target.children[0].id}`); // getting the id of the 1st child element (div menu box) of the clicked element which is the three dot icon
+        //console.log(e.target.children);
 
         if (menuBox.style.display === "none") {  // logic for the displaying and hiding the menu box
             menuBox.style.display = "block";
@@ -58,7 +58,7 @@ const renderPost = (data) => {
                         <div class="d-flex mb-2" data-id=${post.id}>
                             <h3 class="mt-1"><i class="bi bi-three-dots position-relative three-dot-icon-mobile px-2" id="three-dot-icon-${idNum}" style="cursor: pointer;">
                                     <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
-                                        style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 0;"
+                                        style="z-index: 1; border: 1px solid; border-radius: 0.6rem; right: 0;"
                                         id="menu-box-${idNum}">
                                         <p class="edit-button" id="editButton"
                                             style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
@@ -80,12 +80,12 @@ const renderPost = (data) => {
                     </h2>
 
                     <!-- Contents inside the accordion -->
-                    <div id="flush-collapse-${idNum}" class="accordion-collapse collapse accordion-contents-${idNum}"
+                    <div id="flush-collapse-${idNum}" class="accordion-collapse collapse accordion-contents"
                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
-                            <p class="mt-3 fw-bold">Title: <span id="postTitle"
+                            <p class="mt-3 fw-bold">Title: <span class="accordion-post-title" id="postTitle"
                                     style="font-weight: normal;">${post.title}</span></p>
-                            <p class="mt-3 mb-0 fw-bold">Content: <span id="postContent"
+                            <p class="mt-3 mb-0 fw-bold">Content: <span class="accordion-post-body" id="postContent"
                                     style="font-weight: normal;">${post.body}</span></p>
                         </div>
                     </div>
@@ -97,15 +97,15 @@ const renderPost = (data) => {
         // Table Row HTML Element
         postOutputTable += `
             <!-- Contents inside the table row -->
-            <tr class="table-row-container table-content-${idNum}">
+            <tr class="table-row-container table-contents">
             <td class="date-text text-center">${idNum}</td>
-            <td class="title-text">${post.title}</td>
-            <td class="content-text">${post.body}</td>
+            <td class="title-text table-post-title">${post.title}</td>
+            <td class="content-text table-post-body">${post.body}</td>
             <td class="">
                 <div class="d-flex justify-content-center" data-id=${post.id}>
                     <h3 class="h3"><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-table-icon-${idNum}" style="cursor: pointer;">
                             <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
-                                style="z-index: 100; border: 1px solid; border-radius: 0.6rem;"
+                                style="z-index: 1; border: 1px solid; border-radius: 0.6rem;"
                                 id="menu-box-table-${idNum}">
                                 <p class="edit-button" id="editButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                 </p>
@@ -128,6 +128,7 @@ const renderPost = (data) => {
         /* TOGGLING THE THREE DOT MENU */
         let threeDotIconMobile = document.querySelectorAll(".three-dot-icon-mobile"); // variable of the three dot menu icon in mobile
         let threeDotIconTable = document.querySelectorAll(".three-dot-icon-table");   // variable of the three dot menu icon in the table
+        // The icon id and the menu box id must be different for the accordion and the table
 
         // Looping over all three dot icon for mobile
         threeDotIconMobile.forEach((icon) => {
@@ -161,11 +162,12 @@ const deleteEditPost = async (e) => {
 
     e.preventDefault();
 
+    // Declare varaibles of the three for menu buttons
     let delButtonIsPressed = e.target.id == "deleteButton"; // checks if the target id is the delete button
     let editButtonIsPressed = e.target.id == "editButton"; // checks if the target id is the edit button
 
     let menubox = e.target.parentElement;           // parent element of the delete button which is the menu box because the data-id is placed here
-    let dataId = menubox.parentElement.dataset.id; // id of the data
+    let dataId = menubox.parentElement.dataset.id; // id of the data 
     //console.log(dataId)
 
     /* DELETE METHOD */
@@ -185,20 +187,21 @@ const deleteEditPost = async (e) => {
     if (editButtonIsPressed) { // if this is true
 
         let target = e.target; // getting the parent element of the target
+        let contents = target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement; // getting the parent element of the target
+        //console.log(contents);
 
-        console.log(target.parentElement.parentElement);
-        console.log(target.parentNode);
+        // Getting the text content of post title and body from the accordion or the table
+        let postTitleContent = contents.querySelector(".table-post-title").textContent ||  contents.querySelector(".accordion-post-title").textContent;
+        let postBodyContent = contents.querySelector(".table-post-body").textContent ||  contents.querySelector(".accordion-post-body").textContent;
+        //console.log(postTitleContent); 
+        //console.log(postBodyContent); 
 
-        //console.log(target.parentNode.parentNode.parentNode.parentNode.parentNode);
-    
-        // while ( !target.closest("accordion-contents") || !target.closest("table-row-container")) {
-        //     target = target.parentElement;
-        // }
+        // Displays the edit form modal with the data values in the fields
+        document.querySelector(".edit-form-modal").style.display = "block"; // z-index should be higher
+        document.querySelector(".edited-title").value = postTitleContent;
+        document.querySelector(".edited-content").value = postBodyContent;
 
-        // while ( !target.classList.contains("accordion-contents") || !target.classList.contains("table-row-container")) {
-        //     target = target.parentElement;
-        // }
-
+        
     }
     /*
     LOGIC
