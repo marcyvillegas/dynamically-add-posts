@@ -26,14 +26,13 @@ const toggleMenu = (element) => {
 
     element.addEventListener("click", (e) => {
 
-        let icon = document.getElementById(`${e.target.id}`); // getting the id of the clicked element which is the three dot icon
+        let menuBox = document.getElementById(`${e.target.childNodes[1].id}`); // getting the id of the 2nd child node (div menu box) of the clicked element which is the three dot icon
+        console.log(e.target.childNodes);
 
-        let menuBoxId = document.getElementById(`${icon.firstElementChild.id}`); // getting the id of fisrt child element of the icon which is the menu box
-
-        if (menuBoxId.style.display === "none") {  // logic for the displaying and hiding the menu box
-            menuBoxId.style.display = "block";
+        if (menuBox.style.display === "none") {  // logic for the displaying and hiding the menu box
+            menuBox.style.display = "block";
         } else {
-            menuBoxId.style.display = "none";
+            menuBox.style.display = "none";
         }
     });
 }
@@ -199,10 +198,6 @@ const deleteEditPost = async (e) => {
         // while ( !target.classList.contains("accordion-contents") || !target.classList.contains("table-row-container")) {
         //     target = target.parentElement;
         // }
-
-        
-
-        
 
     }
     /*
