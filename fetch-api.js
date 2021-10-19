@@ -61,10 +61,10 @@ const renderPost = (data) => {
                                     <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
                                         style="z-index: 100; border: 1px solid; border-radius: 0.6rem; right: 0;"
                                         id="menu-box-${idNum}">
-                                        <p id="editButton"
+                                        <p class="edit-button" id="editButton"
                                             style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                         </p>
-                                        <p id="deleteButton"
+                                        <p class="delete-button" id="deleteButton"
                                             style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
                                         </p>
                                     </div>
@@ -79,7 +79,9 @@ const renderPost = (data) => {
                             View Post
                         </button>
                     </h2>
-                    <div id="flush-collapse-${idNum}" class="accordion-collapse collapse accordion-contents"
+
+                    <!-- Contents inside the accordion -->
+                    <div id="flush-collapse-${idNum}" class="accordion-collapse collapse accordion-contents-${idNum}"
                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
                             <p class="mt-3 fw-bold">Title: <span id="postTitle"
@@ -95,19 +97,20 @@ const renderPost = (data) => {
 
         // Table Row HTML Element
         postOutputTable += `
-            <tr class="table-row-container">
+            <!-- Contents inside the table row -->
+            <tr class="table-row-container table-content-${idNum}">
             <td class="date-text text-center">${idNum}</td>
             <td class="title-text">${post.title}</td>
             <td class="content-text">${post.body}</td>
             <td class="">
                 <div class="d-flex justify-content-center" data-id=${post.id}>
-                    <h3><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-table-icon-${idNum}" style="cursor: pointer;">
+                    <h3 class="h3"><i class="bi bi-three-dots position-relative three-dot-icon-table" id="three-dot-table-icon-${idNum}" style="cursor: pointer;">
                             <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
                                 style="z-index: 100; border: 1px solid; border-radius: 0.6rem;"
                                 id="menu-box-table-${idNum}">
-                                <p id="editButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
+                                <p class="edit-button" id="editButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                 </p>
-                                <p id="deleteButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
+                                <p class="delete-button" id="deleteButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
                                 </p>
                             </div>
                         </i></h3>
@@ -130,14 +133,12 @@ const renderPost = (data) => {
         // Looping over all three dot icon for mobile
         threeDotIconMobile.forEach((icon) => {
             toggleMenu(icon); // calling the toggle function
-
         });
 
         // Looping over all three dot icon for the table
         threeDotIconTable.forEach((icon) => {
             toggleMenu(icon); // calling the toggle function
         });
-
     });
 }
 
@@ -161,30 +162,54 @@ const deleteEditPost = async (e) => {
 
     e.preventDefault();
 
-    let delButtonIsPressed = e.target.id == "deleteButton"; // 
-    let editButtonIsPressed = e.target.id == "editButton";
+    let delButtonIsPressed = e.target.id == "deleteButton"; // checks if the target id is the delete button
+    let editButtonIsPressed = e.target.id == "editButton"; // checks if the target id is the edit button
 
-    let menubox = e.target.parentElement;           // parent element of the delete button
-
+    let menubox = e.target.parentElement;           // parent element of the delete button which is the menu box because the data-id is placed here
     let dataId = menubox.parentElement.dataset.id; // id of the data
     //console.log(dataId)
 
-    if (delButtonIsPressed) {
-        const response = await fetch(`${url}/${dataId}`, {
+    /* DELETE METHOD */
+    if (delButtonIsPressed) { // if this is true
+        const response = await fetch(`${url}/${dataId}`, { // fetch end point with the id of the data
             method: 'DELETE',
         });
         const data = response.json();
-        //console.log(data);
-        //console.log(`Post has been deleted`);
+        console.log(data); 
+        console.log(`Post has been deleted`);
 
         // Insert modal before reloading the page
         setTimeout(() => location.reload(), 3000);
     }
 
-    if (editButtonIsPressed) {
+    /* PATCH METHOD */
+    if (editButtonIsPressed) { // if this is true
+
+        let target = e.target; // getting the parent element of the target
+
+        console.log(target.parentElement.parentElement);
+        console.log(target.parentNode);
+
+        //console.log(target.parentNode.parentNode.parentNode.parentNode.parentNode);
+    
+        // while ( !target.closest("accordion-contents") || !target.closest("table-row-container")) {
+        //     target = target.parentElement;
+        // }
+
+        // while ( !target.classList.contains("accordion-contents") || !target.classList.contains("table-row-container")) {
+        //     target = target.parentElement;
+        // }
+
+        
+
+        
 
     }
-
+    /*
+    LOGIC
+    1. Loop through the parent elements until it is accordion-contents or table-row-container (containers or divs with the data contents)
+    2. 
+    */
 }
 
 
@@ -201,14 +226,14 @@ const addPost = async (e) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                title: postTitleForm.value,
+            body: JSON.stringify({          // converting object to JSON
+                title: postTitleForm.value,  // putting the value in the create post forms
                 body: postContentForm.value,
             })
         });
 
         const data = await response.json(); // storing the data to a variable
-        console.log(data);                  // console loging the data (as of now)
+        //console.log(data);                  // console loging the data (as of now)
 
         const dataArray = [];               // Since a JSON is an array of objects, we need to store it to an array
         dataArray.push(data);               // push the data to the array
