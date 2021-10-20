@@ -60,7 +60,7 @@ const renderPost = (data) => {
                                     <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
                                         style="z-index: 1; border: 1px solid; border-radius: 0.6rem; right: 0;"
                                         id="menu-box-${idNum}">
-                                        <p class="edit-button" id="editButton"
+                                        <p class="edit-button" id="editButtonAccordion"
                                             style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                         </p>
                                         <p class="delete-button" id="deleteButton"
@@ -107,7 +107,7 @@ const renderPost = (data) => {
                             <div class="menu-box fs-5 position-absolute bg-white p-2 pb-0"
                                 style="z-index: 1; border: 1px solid; border-radius: 0.6rem;"
                                 id="menu-box-table-${idNum}">
-                                <p class="edit-button" id="editButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
+                                <p class="edit-button" id="editButtonTable" style="font-size: 1rem; font-style: normal; cursor: pointer;">Edit
                                 </p>
                                 <p class="delete-button" id="deleteButton" style="font-size: 1rem; font-style: normal; cursor: pointer;">Delete
                                 </p>
@@ -164,8 +164,8 @@ const deleteEditPost = async (e) => {
 
     // Declare varaibles of the three for menu buttons
     let delButtonIsPressed = e.target.id == "deleteButton"; // checks if the target id is the delete button
-    let editButtonIsPressed = e.target.id == "editButton"; // checks if the target id is the edit button
-    // >> create another variable for the id of the edit button in the table
+    let editButtonIsPressedAccordion = e.target.id == "editButtonAccordion"; // checks if the target id is the edit button for the accordion
+    let editButtonIsPressedTable = e.target.id == "editButtonTable"; // checks if the target id is the edit button for the table
 
     let menubox = e.target.parentElement;           // parent element of the delete button which is the menu box because the data-id is placed here
     let dataId = menubox.parentElement.dataset.id; // id of the data 
@@ -177,39 +177,48 @@ const deleteEditPost = async (e) => {
             method: 'DELETE',
         });
         const data = response.json();
-        console.log(data); 
+        console.log(data);
         console.log(`Post has been deleted`);
 
         // Insert modal before reloading the page
         setTimeout(() => location.reload(), 3000);
     }
 
-    /* PATCH METHOD */
-    if (editButtonIsPressed) { // if this is true
+    /* PATCH METHOD for the mobile || accordion */
+    if (editButtonIsPressedAccordion) { // if this is true
 
         let target = e.target; // getting the parent element of the target
         let contents = target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement; // getting the parent element of the target
-        //console.log(contents);
+        console.log(contents);
 
         // Getting the text content of post title and body from the accordion or the table
-        let postTitleContent = contents.querySelector(".accordion-post-title").textContent || contents.querySelector(".table-post-title").textContent;
+        //let postTitleContent = contents.querySelector(".accordion-post-title").textContent || contents.querySelector(".table-post-title").textContent;
+
         //let postTitleContentAccordion = contents.querySelector("#post-title-accordion").textContent;
         //|| contents.querySelector(".accordion-post-title").textContent;
-       // let postBodyContent = contents.querySelector(".table-post-body").textContent || contents.querySelector(".accordion-post-body").textContent;
+        // let postBodyContent = contents.querySelector(".table-post-body").textContent || contents.querySelector(".accordion-post-body").textContent;
         //console.log(postTitleContent);
         //console.log(postBodyContent);
-        
 
-        console.log(postTitleContent);
-        
+
+        //console.log(postTitleContent);
+
 
         // Displays the edit form modal with the data values in the fields
         // document.querySelector(".edit-form-modal").style.display = "block"; // z-index should be higher
         // document.querySelector(".edited-title").value = postTitleContent || postTitleContentAccordion;
         // document.querySelector(".edited-content").value = postBodyContent || postBodyContentAccordion;
 
-        
+
     }
+
+    /* PATCH METHOD for the large screen || table row */
+    if (editButtonIsPressedTable) {
+        let target = e.target; // getting the parent element of the target
+        let contents = target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement; // getting the parent element of the target
+        console.log(contents);
+    }
+
     /*
     LOGIC
     1. Get parent elements which are the accordion-contents or table-row-container (containers or divs with the data contents)
