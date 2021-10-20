@@ -148,6 +148,7 @@ const renderPost = (data) => {
 }
 
 
+//---------------------------------------------- HTTP REQUEST METHODS ----------------------------------------------------------
 
 // DOCS: https://jsonplaceholder.typicode.com/
 let url = "https://jsonplaceholder.typicode.com/posts"; // API endpoint
@@ -245,13 +246,14 @@ const deleteEditPost = async (e) => {
             })
         });
         const data = await response.json();
+        editFormModal.style.display = "none";
+        
         console.log(data);
         console.log("Data has been edited")
 
         // Insert modal before reloading the page
-        setTimeout(() => location.reload(), 3000);
+        //setTimeout(() => location.reload(), 3000);
     });
-
     /* LOGIC
     1. 
     2. Get parent elements which are the accordion-contents or table-row-container (containers or divs with the data contents)
@@ -303,8 +305,9 @@ displayPosts();
 /* POST METHOD */
 // Event listener for the Submit Button Form
 // try using "submit" (not working)
-submitButton.addEventListener("click", addPost);
+submitButton.addEventListener("submit", addPost);
 
-
+/* DELETE and PATCH METHOD */
+// Event listener for the delete and edit button for the accordion and table row
 accordionContainer.addEventListener("click", deleteEditPost);
 tableContainer.addEventListener("click", deleteEditPost);
