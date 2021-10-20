@@ -165,6 +165,7 @@ const deleteEditPost = async (e) => {
     // Declare varaibles of the three for menu buttons
     let delButtonIsPressed = e.target.id == "deleteButton"; // checks if the target id is the delete button
     let editButtonIsPressed = e.target.id == "editButton"; // checks if the target id is the edit button
+    // >> create another variable for the id of the edit button in the table
 
     let menubox = e.target.parentElement;           // parent element of the delete button which is the menu box because the data-id is placed here
     let dataId = menubox.parentElement.dataset.id; // id of the data 
