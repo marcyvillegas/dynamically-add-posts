@@ -230,26 +230,26 @@ const deleteEditPost = async (e) => {
     }
 
     /* PATCH METHOD */
-    editedSumbitButton.addEventListener("click", (e) => { // when save edit button is clicked
+    editedSumbitButton.addEventListener("click", async (e) => { // when save edit button is clicked
 
         e.preventDefault();
-        try {
-            const response = fetch(`${url}/${dataId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    title: editedTitle.value,
-                    body: editedBody.value
-                })
-            });
-            const data = response.json();
-            console.log(data);
-        } catch (e) {
-            console.log(e);
-        }
 
+        const response = await fetch(`${url}/${dataId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: editedTitle.value,
+                body: editedBody.value
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+        console.log("Data has been edited")
+
+        // Insert modal before reloading the page
+        setTimeout(() => location.reload(), 3000);
     });
 
     /* LOGIC
