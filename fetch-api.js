@@ -9,10 +9,15 @@ let postOutputTable = ""; // Output for the Table Row
 let idNum = 0;           // ID number for every Accordion Button and Post Number
 
 /* Declare variable for the createing a post form */
-const postTitleForm = document.querySelector(".form-title"); // Post Title form
-const postContentForm = document.querySelector(".form-content"); // Post Content form
+const postTitleForm = document.querySelector(".form-title"); // Post Title field
+const postContentForm = document.querySelector(".form-content"); // Post Content field
 const submitButton = document.querySelector(".submit-button"); // Submit button form
 
+/* Declare varaible for the edit modal form */
+const editFormModal = document.querySelector(".edit-form-modal"); // Edit Modal form
+const editedTitle = document.querySelector(".edited-title");      // Edited Post Title field
+const editedBody = document.querySelector(".edited-body");        // Edited Post Body field
+const editedSumbitButton = document.querySelector(".save-edit");  // Save Edit button
 
 
 
@@ -151,7 +156,7 @@ let url = "https://jsonplaceholder.typicode.com/posts"; // API endpoint
 // Displaying the posts per accordion and table row element
 const displayPosts = async () => {
 
-    const response = await fetch(url);       // fetch APU endpoint
+    const response = await fetch(url);       // fetch API endpoint
     const data = await response.json();      // store JSON data to a variable
     renderPost(data);                       // call renderPost function which adds elements with the data from the API
 }
@@ -173,10 +178,11 @@ const deleteEditPost = async (e) => {
 
     /* DELETE METHOD */
     if (delButtonIsPressed) { // if this is true
+
         const response = await fetch(`${url}/${dataId}`, { // fetch end point with the id of the data
             method: 'DELETE',
         });
-        const data = response.json();
+        const data = await response.json();
         console.log(data);
         console.log(`Post has been deleted`);
 
@@ -184,46 +190,73 @@ const deleteEditPost = async (e) => {
         setTimeout(() => location.reload(), 3000);
     }
 
-    /* PATCH METHOD for the mobile || accordion */
-    if (editButtonIsPressedAccordion) { // if this is true
+    // Displays the value of the post contents in the edit modal form for accordion or mobile
+    if (editButtonIsPressedAccordion) { // if the accordion edit button is pressed
 
         let target = e.target; // getting the parent element of the target
         let contents = target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement; // getting the parent element of the target
         console.log(contents);
 
-        // Getting the text content of post title and body from the accordion or the table
-        //let postTitleContent = contents.querySelector(".accordion-post-title").textContent || contents.querySelector(".table-post-title").textContent;
-
-        //let postTitleContentAccordion = contents.querySelector("#post-title-accordion").textContent;
-        //|| contents.querySelector(".accordion-post-title").textContent;
-        // let postBodyContent = contents.querySelector(".table-post-body").textContent || contents.querySelector(".accordion-post-body").textContent;
+        // Getting the text content of post title and body from the accordion
+        let postTitleContent = contents.querySelector(".accordion-post-title").textContent;
+        let postBodyContent = contents.querySelector(".accordion-post-body").textContent;
         //console.log(postTitleContent);
         //console.log(postBodyContent);
 
 
-        //console.log(postTitleContent);
-
-
         // Displays the edit form modal with the data values in the fields
-        // document.querySelector(".edit-form-modal").style.display = "block"; // z-index should be higher
-        // document.querySelector(".edited-title").value = postTitleContent || postTitleContentAccordion;
-        // document.querySelector(".edited-content").value = postBodyContent || postBodyContentAccordion;
-
-
+        editFormModal.style.display = "block"; // z-index should be higher
+        editedTitle.value = postTitleContent;
+        editedBody.value = postBodyContent;
     }
 
-    /* PATCH METHOD for the large screen || table row */
-    if (editButtonIsPressedTable) {
+    // Displays the value of the post contents in the edit modal form for table rows or large screens
+    if (editButtonIsPressedTable) {  // if the table row edit button is pressed
+
         let target = e.target; // getting the parent element of the target
         let contents = target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement; // getting the parent element of the target
         console.log(contents);
+
+        // Getting the text content of post title and body from the table row
+        let postTitleContent = contents.querySelector(".table-post-title").textContent;
+        let postBodyContent = contents.querySelector(".table-post-body").textContent;
+        //console.log(postTitleContent);
+        //console.log(postBodyContent);
+
+        // Displays the edit form modal with the data values in the fields
+        editFormModal.style.display = "block"; // z-index should be higher
+        editedTitle.value = postTitleContent;
+        editedBody.value = postBodyContent;
     }
 
-    /*
-    LOGIC
-    1. Get parent elements which are the accordion-contents or table-row-container (containers or divs with the data contents)
-    2. Set different ids for the edit button both for the accordion and table
-    3. Try separating the function if it is still not working
+    /* PATCH METHOD */
+    editedSumbitButton.addEventListener("click", (e) => { // when save edit button is clicked
+
+        e.preventDefault();
+        try {
+            const response = fetch(`${url}/${dataId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: editedTitle.value,
+                    body: editedBody.value
+                })
+            });
+            const data = response.json();
+            console.log(data);
+        } catch (e) {
+            console.log(e);
+        }
+
+    });
+
+    /* LOGIC
+    1. 
+    2. Get parent elements which are the accordion-contents or table-row-container (containers or divs with the data contents)
+    3. Set different ids for the edit button both for the accordion and table
+    4. Try separating the function if it is still not working
     */
 }
 
@@ -232,7 +265,7 @@ const deleteEditPost = async (e) => {
 // Adding the data to the API
 const addPost = async (e) => {
 
-    if (!isEmpty(postTitleForm.value) || !isEmpty(postContentForm.value)) {
+    if (!isEmpty(postTitleForm.value) || !isEmpty(postContentForm.value)) {  // if the form is not empty 
 
         e.preventDefault();
 
