@@ -162,7 +162,6 @@ const displayPosts = async () => {
     renderPost(data);                       // call renderPost function which adds elements with the data from the API
 }
 
-
 /* DELETE AND PATCH METHOD - Deletes and edits the post */
 const deleteEditPost = async (e) => {
 
@@ -278,12 +277,12 @@ const addPost = async (e) => {
             },
             body: JSON.stringify({          // converting object to JSON
                 title: postTitleForm.value,  // putting the value in the create post forms
-                body: postContentForm.value,
+                body: postContentForm.value
             })
         });
 
         const data = await response.json(); // storing the data to a variable
-        //console.log(data);                  // console loging the data (as of now)
+        console.log(data);                  // console loging the data (as of now)
 
         const dataArray = [];               // Since a JSON is an array of objects, we need to store it to an array
         dataArray.push(data);               // push the data to the array
@@ -292,7 +291,8 @@ const addPost = async (e) => {
         postTitleForm.value = "";           // setting the forms back to empty
         postContentForm.value = "";         // setting the forms back to empy
 
-        // Can add modal for successfully made the post 
+        // Can add modal for successfully made the post
+        setTimeout(() => location.reload(), 3000);
 
     } // Can insert an else statement and an invalid modal about the invalid input values
 }
